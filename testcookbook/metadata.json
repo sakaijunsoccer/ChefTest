@@ -1,0 +1,30 @@
+{
+  "platforms": {
+  },
+  "maintainer_email": "YOUR_EMAIL",
+  "replacing": {
+  },
+  "conflicting": {
+  },
+  "maintainer": "YOUR_COMPANY_NAME",
+  "name": "testcookbook",
+  "license": "All rights reserved",
+  "version": "0.0.1",
+  "providing": {
+  },
+  "dependencies": {
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "description": "Installs/Configures testcookbook",
+  "recipes": {
+    "testcookbook": "Test Cook Book"
+  },
+  "groupings": {
+  },
+  "attributes": {
+  },
+  "suggestions": {
+  },
+  "recommendations": {
+  }
+}
