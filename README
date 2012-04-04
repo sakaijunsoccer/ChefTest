@@ -1,4 +1,21 @@
-Feature Test
-Release Test
-Git Test
-Hotfix
+== Chef Server
+TODO
+
+== Vargrant
+
+= Crete vagrant user
+ssh knife_client
+knife client create vargrant -n -a -f ./vargrant.pem
+
+= Send cer to vagrant client
+scp vargarnt.pem vargrant_server:/home/vargrant/.chef/.
+scp /etc/chef/validation.pem vargrant_server:/home/vargrant/.chef/.
+
+= Run vagrant
+ssh vargrant_client
+mkdir Vargrant
+cd Vargrant
+vim Vagrantfile
+vagrant up
+vagrant ssh
+
