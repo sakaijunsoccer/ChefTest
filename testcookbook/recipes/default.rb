@@ -1,9 +1,16 @@
-e = execute "apt-get update" do
-  action :nothing
+#require_recipe "apache2"
+
+# Update repository
+case node[:platform]
+    when "debian","ubuntu"
+        e = execute "apt-get update" do
+          ignore_failure true
+          action :nothing
+        end
+        e.run_action(:run)
 end
 
-e.run_action(:run)
-
+# Install apache2
 package "apache2" do
   case node[:platform]
   when "centos","redhat","fedora","suse"
@@ -14,18 +21,31 @@ package "apache2" do
   action :install
 end
 
-# Package Install
+# Install mysql server
 package "mysql-server" do
     action :install
 end
 
-# Chef Resoruces
+# Install Postgres
+include_recipe "postgresql::server"
+include_recipe "database"
+
+postgresql_connection_info = {:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']}
+
+# Create django db on postgres
+database 'django' do
+  connection postgresql_connection_info
+  provider Chef::Provider::Database::Postgresql
+  action :create
+end
+
+# Resoruces sample
 service "apache2" do
     supports :restart => true, :reload => true
     action :enable
 end
 
-# Template
+# Template sample
 template "/tmp/test.conf" do
     mode "644"
     source "test.conf.erb"
@@ -35,20 +55,21 @@ template "/tmp/test.conf" do
 end
 
 # Log Test
-#begin
-#  raise "error message"
-#rescue => e
-#  Chef::Log.error "ERROR: %s" % e
-#end
+begin
+  raise "error message"
+rescue => e
+  Chef::Log.error "ERROR: %s" % e
+end
 
-# Chef Resrouces
+# Resrouces http request sample
 http_request "some message" do
   action :get
+  ignore_failure true
   url "http://www.nttmcl.com/"
   message :some => "data"
 end
 
-
+# Attribute sample
 if platform?("debian","ubuntu")
     # File
     cookbook_file "/tmp/vimrc" do
@@ -70,7 +91,6 @@ core_func do |c|
         filename "test" + c.to_s()
     end
 end
-
 
 # Custom Provider/Resrouces Sample
 testcookbook_database "djangodb" do
