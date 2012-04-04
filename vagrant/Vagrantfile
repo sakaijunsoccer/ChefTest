@@ -25,7 +25,7 @@ Vagrant::Config.run do |config|
   # Assign this VM to a bridged network, allowing you to connect directly to a
   # network using the host's network device. This makes the VM appear as another
   # physical device on your network.
-  config.vm.network :bridged
+  # config.vm.network :bridged
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
@@ -89,10 +89,14 @@ Vagrant::Config.run do |config|
   #   chef.validation_key_path = "ORGNAME-validator.pem"
   # end
   config.vm.provision :chef_client do |chef|
-     chef.chef_server_url = "http://localhost:4000"
+     chef.chef_server_url = "http://216.69.69.235:4000"
      chef.validation_key_path = "validation.pem"
      chef.validation_client_name = "chef-validator"
      chef.client_key_path = "vargrant.pem"
+     #chef.validation_client_name = "vagrant"
+     chef.add_recipe("postgresql")
+     chef.add_recipe("postgresql::server")
+     chef.add_recipe("database")
      chef.add_recipe("testcookbook")
   end
   #
