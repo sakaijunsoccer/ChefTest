@@ -1,3 +1,24 @@
+e = execute "apt-get update" do
+  action :nothing
+end
+
+e.run_action(:run)
+
+package "apache2" do
+  case node[:platform]
+  when "centos","redhat","fedora","suse"
+    package_name "httpd"
+  when "debian","ubuntu"
+    package_name "apache2"
+  end
+  action :install
+end
+
+# Package Install
+package "mysql-server" do
+    action :install
+end
+
 # Chef Resoruces
 service "apache2" do
     supports :restart => true, :reload => true
@@ -13,16 +34,20 @@ template "/tmp/test.conf" do
     #action :create
 end
 
+# Log Test
+#begin
+#  raise "error message"
+#rescue => e
+#  Chef::Log.error "ERROR: %s" % e
+#end
+
 # Chef Resrouces
-begin
-	http_request "some message" do
-	  action :get
-	  url "http://www.nttmcl.com/"
-	  message :some => "data"
-	end
-rescue
-    Chef::Log.error "Fail HTTP"
+http_request "some message" do
+  action :get
+  url "http://www.nttmcl.com/"
+  message :some => "data"
 end
+
 
 if platform?("debian","ubuntu")
     # File
@@ -46,10 +71,6 @@ core_func do |c|
     end
 end
 
-# Package Install
-package "mysql-server" do
-    action :install
-end
 
 # Custom Provider/Resrouces Sample
 testcookbook_database "djangodb" do
