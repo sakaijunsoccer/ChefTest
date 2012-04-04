@@ -27,8 +27,8 @@ package "mysql-server" do
 end
 
 # Install Postgres
-require_recipe "postgresql::server"
-require_recipe "database"
+include_recipe "postgresql::server"
+include_recipe "database"
 
 postgresql_connection_info = {:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']}
 
