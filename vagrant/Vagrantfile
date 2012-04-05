@@ -89,7 +89,7 @@ Vagrant::Config.run do |config|
   #   chef.validation_key_path = "ORGNAME-validator.pem"
   # end
   config.vm.provision :chef_client do |chef|
-     chef.chef_server_url = "http://216.69.69.235:4000"
+     chef.chef_server_url = "http://localhost:4000"
      chef.validation_key_path = "validation.pem"
      chef.validation_client_name = "chef-validator"
      chef.client_key_path = "vargrant.pem"
